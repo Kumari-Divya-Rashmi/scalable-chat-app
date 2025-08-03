@@ -1,2 +1,5 @@
-# scalable-chat-app
+
+# Scalable Chat App
+
+This is my scalable chat app project.
 
