@@ -1,0 +1,156 @@
+<!-- <!DOCTYPE html>
+<html>
+<head>
+  <title>Chat App</title>
+</head>
+<body>
+  <h2>Simple Chat Room</h2>
+  <input id="room" placeholder="Room name" />
+  <input id="message" placeholder="Type a message" />
+  <button onclick="joinRoom()">Join</button>
+  <button onclick="sendMessage()">Send</button>
+
+  <div id="chat"></div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const socket = io();
+
+    function joinRoom() {
+      const room = document.getElementById('room').value;
+      socket.emit('joinRoom', { room });
+    }
+
+    function sendMessage() {
+      const room = document.getElementById('room').value;
+      const message = document.getElementById('message').value;
+      socket.emit('chatMessage', { room, message });
+    }
+
+    socket.on('message', (msg) => {
+      const chat = document.getElementById('chat');
+      chat.innerHTML += `<p>${msg}</p>`;
+    });
+  </script>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Chat App</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f2f2f2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h2 {
+      color: #333;
+    }
+
+    .chat-container {
+      width: 100%;
+      max-width: 600px;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-group {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    input[type="text"] {
+      flex: 1;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+
+    button {
+      padding: 10px 16px;
+      font-size: 16px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    #chat {
+      margin-top: 20px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 10px;
+      height: 300px;
+      overflow-y: auto;
+      background-color: #f9f9f9;
+    }
+
+    #chat p {
+      margin: 8px 0;
+      padding: 6px 10px;
+      background: #e6f7ff;
+      border-radius: 6px;
+      max-width: 80%;
+    }
+  </style>
+</head>
+<body>
+  <h2>Real-Time Chat App</h2>
+  <div class="chat-container">
+    <div class="form-group">
+      <input id="room" type="text" placeholder="Room name" />
+      <button onclick="joinRoom()">Join Room</button>
+    </div>
+    <div class="form-group">
+      <input id="message" type="text" placeholder="Type a message" />
+      <button onclick="sendMessage()">Send</button>
+    </div>
+    <div id="chat"></div>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const socket = io();
+
+    function joinRoom() {
+      const room = document.getElementById('room').value.trim();
+      if (room) {
+        socket.emit('joinRoom', { room });
+        document.getElementById('chat').innerHTML += `<p><strong>Joined room:</strong> ${room}</p>`;
+      }
+    }
+
+    function sendMessage() {
+      const room = document.getElementById('room').value.trim();
+      const message = document.getElementById('message').value.trim();
+      if (room && message) {
+        socket.emit('chatMessage', { room, message });
+        document.getElementById('message').value = '';
+      }
+    }
+
+    socket.on('message', (msg) => {
+      const chat = document.getElementById('chat');
+      chat.innerHTML += `<p>${msg}</p>`;
+      chat.scrollTop = chat.scrollHeight;
+    });
+  </script>
+</body>
+</html>
